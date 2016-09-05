@@ -1,4 +1,4 @@
-// Note when upgrading template, remember to add onload="AutoStart();" to BODY statement
+
 
 var FIRSTIMAGE = 0;
 var ROWS = 6;
@@ -29,6 +29,7 @@ for (var row = 0; row < ROWS; row++) {
 var linecount = 0;
 var linecoords = new Array(70);
 fill_lines();
+loadHistory();
 function fill_lines() {
 	for (row = 0; row < ROWS; row++) {
 		for (col = 0; col < COLS; col++) {
@@ -471,6 +472,7 @@ function AutoStart() {
 }
 
 function checkForWinner(player) {
+	var winner="";
 	if (gameActive == 1) {
 		var someOneWon;
 		someOneWon = 0;
@@ -535,19 +537,24 @@ function checkForWinner(player) {
 						unPlaceTop(col);
 					}
 					if (player == RedNum) {
+						winner=document.formo.redplayer.value;
 						alert(document.formo.redplayer.value + " wins.");
 						redScore += 1;
 					} else if (player == BlkNum) {
+						winner=document.formo.blkplayer.value;
 						alert(document.formo.blkplayer.value + " wins.");
 						bluScore += 1;
+					}else{
+						winner=draw;
 					}
 					gameActive = 0;
 					someOneWon = 1;
 					ic = 49;
 					document.formo.redScoreBoard.value = redScore + "";
 					document.formo.bluScoreBoard.value = bluScore + "";
-					postGameHistory("winner");
+					postGameHistory(winner);
 					newGame();
+					loadHistory();
 
 				}
 			}
@@ -565,11 +572,12 @@ function checkForWinner(player) {
 				}
 				gameActive = 0;
 				alert("This game has reached a draw.");
+				
 				debug("end");
-
+				
 			}
 		}
-
+		
 		// NB these go here, coz the last animation frame calls "CheckForWinner"
 		// and then has to do these:
 		switchTurns();
@@ -604,8 +612,10 @@ function newMatchUp() {
 		bluScore = 0;
 		document.formo.redScoreBoard.value = redScore + "";
 		document.formo.bluScoreBoard.value = bluScore + "";
+		document.formo.gameId.value = generateGameId();
 		matchMade = 1;
 		whoGoesFirst();
+		
 	}
 }
 
@@ -693,11 +703,12 @@ function drawnextframe() {
 }
 
 function postGameHistory(winner) {
-
-	var redPlayer = "blkplayer";
-	var blkplayer = "blkPlayer";
+	var gameId=document.formo.gameId.value;
+	var redPlayer = document.formo.redplayer.value;
+	var blkPlayer = document.formo.blkplayer.value;
+	var score1 = document.formo.redScoreBoard.value;
+	var score2 = document.formo.bluScoreBoard.value;
 	var winner = winner;
-	var object = '{   "redplayer":"John" , "lastName":"Doe"   }';
 	var settings = {
 		"async" : true,
 		"crossDomain" : true,
@@ -708,17 +719,42 @@ function postGameHistory(winner) {
 			"cache-control" : "no-cache",
 		},
 		"processData" : false,
-		"data" : "{   \"redplayer\":\"John\" , \"lastName\":\"Doe\"   }"
+		"data" : "{    \"gameId\":\""+gameId+"\" ," +
+				"\"redPlayer\":\""+redPlayer+"\" ," +
+					"\"blkPlayer\":\""+blkPlayer+"\"," +
+					 "\"score1\":\""+score1+"\" ," +
+						"\"score2\":\""+score2+"\"," +
+					" \"winner\":\""+winner+"\" }"
 	}
-
 	$.ajax(settings).done(function(response) {
-		alert("done beibeh")
+		
 	});
 
 }
 
-function refresh() {
+function loadHistory() {
+	$("#gameHistory tbody").empty();
+	var settings = {
+			"async" : true,
+			"crossDomain" : true,
+			"url" : "/game/history",
+			"method" : "get",
+			"headers" : {
+				"content-type" : "application/json",
+				"cache-control" : "no-cache",
+			},
+			"processData" : false
+		}
+$.ajax(settings).done(function(response) {
+	$.each(response.rows, function( index, value ) {
+		 $('#gameHistory tbody').append("<tr><td>" + value.player1 + "</td><td>" + value.player2 + "</td><td>" + value.score1 + "</td><td>" + value.score2 + "</td><td>" + value.winner + "</td></tr>");
+	});
+});
+}
 
+function generateGameId(){
+	return Math.floor(Math.random()*1E16);
+	
 }
 
 // End -->

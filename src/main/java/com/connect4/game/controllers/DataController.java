@@ -1,14 +1,14 @@
 package com.connect4.game.controllers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.connect4.game.models.GameHistory;
@@ -22,19 +22,37 @@ public class DataController {
   @Autowired
   GameHistoryService gameHistoryService;
 
+  /**
+   * Save game history endpoint
+   * 
+   * @param objectNode Game history to be saved.
+   * @return
+   */
   @RequestMapping(value = "/history", method = RequestMethod.POST, consumes = "application/json",
       produces = "application/json")
   public ResponseEntity<Object> saveHistory(@RequestBody ObjectNode objectNode) {
-    gameHistoryService.save(new GameHistory(1, String.valueOf(System.currentTimeMillis()), String.valueOf(System.currentTimeMillis()), String.valueOf(System.currentTimeMillis())));
-    return new ResponseEntity<Object>(HttpStatus.OK);
+   
+    return new ResponseEntity<Object>( gameHistoryService.save(new GameHistory(objectNode.get("gameId").asLong(), objectNode.get("redPlayer").asText(),
+        objectNode.get("blkPlayer").asText(),objectNode.get("score1").asText(), objectNode.get("score2").asText(),
+        objectNode.get("winner").asText(),new Date())),HttpStatus.OK);
   }
-  
-  
+
+
+  /**
+   * Get game history endpoint, using ObjectNode as parameter which is contains paging information
+   * 
+   * @param objectNode paging parameter
+   * @return
+   */
   @RequestMapping(value = "/history", method = RequestMethod.GET, consumes = "application/json",
       produces = "application/json")
-  public ResponseEntity<Object> getHistory(@RequestBody ObjectNode objectNode) {
+  public ResponseEntity<Object> getHistory(@RequestParam(value="offset", defaultValue="1")String offset,
+      @RequestParam(value="limit", defaultValue="8")String limit,
+      @RequestParam(value="order", defaultValue="Desc")String order,
+      @RequestParam(value="sort", defaultValue="date")String sort) {
 
-    return new ResponseEntity<Object>(HttpStatus.OK);
+    return new ResponseEntity<Object>(gameHistoryService.getAll(Integer.valueOf(offset),Integer.valueOf(limit),
+        order, sort),HttpStatus.OK);
   }
 
 }
