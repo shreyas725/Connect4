@@ -701,7 +701,7 @@ function postGameHistory(winner) {
 	var settings = {
 		"async" : true,
 		"crossDomain" : true,
-		"url" : "http://localhost:8080/game/history",
+		"url" : "/game/history",
 		"method" : "POST",
 		"headers" : {
 			"content-type" : "application/json",
