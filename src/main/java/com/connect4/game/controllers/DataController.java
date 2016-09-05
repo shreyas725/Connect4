@@ -25,7 +25,7 @@ public class DataController {
   @RequestMapping(value = "/history", method = RequestMethod.POST, consumes = "application/json",
       produces = "application/json")
   public ResponseEntity<Object> saveHistory(@RequestBody ObjectNode objectNode) {
-
+    gameHistoryService.save(new GameHistory(1, String.valueOf(System.currentTimeMillis()), String.valueOf(System.currentTimeMillis()), String.valueOf(System.currentTimeMillis())));
     return new ResponseEntity<Object>(HttpStatus.OK);
   }
   
