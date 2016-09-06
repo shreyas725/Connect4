@@ -17,7 +17,7 @@ var lookForSrc;
 var redScore = 0;
 var bluScore = 0;
 var colcount = new Array(COLS);
-
+//construct game board//
 var board = new Array(ROWS);
 for (var row = 0; row < ROWS; row++) {
 	board[row] = new Array(COLS);
@@ -28,8 +28,10 @@ for (var row = 0; row < ROWS; row++) {
 
 var linecount = 0;
 var linecoords = new Array(70);
+//trigger the line fill & load the game history//
 fill_lines();
 loadHistory();
+//fill game board lines// 
 function fill_lines() {
 	for (row = 0; row < ROWS; row++) {
 		for (col = 0; col < COLS; col++) {
@@ -65,7 +67,7 @@ function fill_lines() {
 function inbounds(row, col) {
 	return ((row >= 0) && (col >= 0) && (row < ROWS) && (col < COLS));
 }
-
+//trigger replay after game end 
 function rePlay() {
 	if (gameActive == 1) {
 		document.formo.redScoreBoard.value = redScore + "";
@@ -84,7 +86,7 @@ function rePlay() {
 	isdropping = 0;
 
 }
-
+//image & common game variable
 var redSpot = new Image();
 var bluSpot = new Image();
 var emptySpot = new Image();
@@ -105,6 +107,7 @@ var whosTurnPiece = new Image();
 whosTurnSpot.src = redSpot.src;
 whosTurnPiece.src = redPiece.src;
 
+//clear the game board. will triggered when game end(someone win).
 function clearBoard() {
 	for (var a = 7; a <= 48; a++) {
 		document.images[FIRSTIMAGE + a].src = emptySpot.src;
@@ -123,6 +126,7 @@ function unPlaceTop(picToUnplace) {
 	}
 }
 
+//droping the game disc. configure the disc drop.
 function dropIt(whichCol) {
 	if (gameActive == 1) {
 		if (isdropping == 0) {
@@ -169,7 +173,7 @@ function boarddump() {
 	}
 	return s;
 }
-
+// player first move turn randomizer //
 function whoGoesFirst() {
 	whosTurn = whosFirst;
 	switchTurns();
@@ -180,6 +184,7 @@ function whoGoesFirst() {
 	}
 }
 
+//switch turn to another player if 1 player already choose his move//
 function switchTurns() {
 
 	if (gameActive == 1) {
@@ -207,10 +212,12 @@ function switchTurns() {
 	}
 }
 
+//Ai move function//
 function ComputersTurn(player) {
 	setTimeout("AComputersTurn(" + player + ")", 1);
 }
 
+//Ai decision move function base on difficulties//
 function AComputersTurn(player) {
 
 	Difficulty = document.formo.difficulty.value;
@@ -439,7 +446,7 @@ function Strength(player, row, col, rowchg, colchg) {
 
 	return x;
 }
-
+//Auto start game . another function trigger should goes her to make a new game.//
 function AutoStart() {
 
 	gameActive = 1;
@@ -470,7 +477,7 @@ function AutoStart() {
 	}
 
 }
-
+//check winner, triggered while someone have a move. save Game history & reload game history is triggered from this function//
 function checkForWinner(player) {
 	var winner="";
 	if (gameActive == 1) {
@@ -590,7 +597,7 @@ function checkForWinner(player) {
 
 	}
 }
-
+//triggered when player click menu > new game
 function newGame() {
 	if (matchMade == 1) {
 		debug("stt");
@@ -602,7 +609,7 @@ function newGame() {
 
 	}
 }
-
+//deprecated , not used.//
 function newMatchUp() {
 	if (confirm("Are you sure you want to Start a new match?")) {
 		gameActive = 1;
@@ -635,8 +642,6 @@ function debug(thestr) {
 	} else {
 		if (thestr == "end") {
 			timeend = new Date();
-			// debugstr += "\n[" + (timeend.getTime() - timestt.getTime()) +
-			// "ms]";
 			document.formo.comments.value = debugstr;
 		} else {
 			debugstr += thestr;
@@ -644,11 +649,9 @@ function debug(thestr) {
 	}
 }
 
-//
-// Animation functions
-//
 
-// The Animation Object constructor
+// Animation functions//
+// The Animation Object constructor//
 function Animation() {
 	this.imageNum = new Array(); // Array of indicies document.images to be
 									// changed
@@ -702,6 +705,7 @@ function drawnextframe() {
 	}
 }
 
+//Push game history to webservice endpoint//
 function postGameHistory(winner) {
 	var gameId=document.formo.gameId.value;
 	var redPlayer = document.formo.redplayer.value;
@@ -727,11 +731,11 @@ function postGameHistory(winner) {
 					" \"winner\":\""+winner+"\" }"
 	}
 	$.ajax(settings).done(function(response) {
-		
+		console.log(JSON.stringify(response));
 	});
 
 }
-
+//Retrieve gameHistory
 function loadHistory() {
 	$("#gameHistory tbody").empty();
 	var settings = {

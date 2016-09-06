@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.connect4.game.helper.DatatableSet;
@@ -15,7 +14,6 @@ import com.connect4.game.repositories.GameHistoryRepo;
 
 
 @Service("gameHistoryService")
-@Async
 public class GameHistoryService implements CommonService<GameHistory> {
   private Logger logger = LoggerFactory.getLogger(GameHistoryService.class);
   @Autowired
@@ -30,14 +28,14 @@ public class GameHistoryService implements CommonService<GameHistory> {
 
   @Override
   public GameHistory deleteById(GameHistory t) {
-    // TODO Auto-generated method stub
-    return null;
+    gameHistoryRepo.delete(t);
+    return t;
   }
 
   @Override
   public GameHistory getById(Long id) {
     
-    return null;
+     return null;
   }
 
   @Override

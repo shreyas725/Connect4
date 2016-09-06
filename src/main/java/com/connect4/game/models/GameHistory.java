@@ -5,6 +5,11 @@ import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * This is the GameHistory Entity. used to abstraction of GameHistory Data from application to MongoDb vice-versa.
+ * @author fadhilprm , Sep 6, 2016
+ *	
+ */
 @Document(collection = "GAME_HISTORY")
 public class GameHistory {
  
@@ -16,10 +21,6 @@ public class GameHistory {
   private String score2;
   private String winner;
   private Date date;
-
-
- 
-
 
   public GameHistory(Long gameId, String player1, String player2, String score1, String score2,
       String winner, Date date) {

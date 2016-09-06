@@ -3,7 +3,7 @@ package com.connect4.game.services;
 import com.connect4.game.helper.DatatableSet;
 
 /**
- * Generic Crud Repository for Object
+ * Generic Crud Service for Object
  * 
  * @author fadhilprm , Sep 6, 2016
  * 

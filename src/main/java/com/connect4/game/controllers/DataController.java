@@ -15,6 +15,11 @@ import com.connect4.game.models.GameHistory;
 import com.connect4.game.services.GameHistoryService;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+/**
+ * The main Rest Endpoint class.
+ * @author fadhilprm , Sep 6, 2016
+ *	
+ */
 @RestController()
 @RequestMapping(value = "/game")
 public class DataController {
