@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: connect4
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: fadhilprm
+Implementation-Vendor-Id: com.connect4.game
+Build-Jdk: 1.8.0_51
+Implementation-URL: http://projects.spring.io/spring-boot/connect4/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+

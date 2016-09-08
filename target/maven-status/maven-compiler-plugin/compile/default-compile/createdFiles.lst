@@ -1,0 +1,8 @@
+com/connect4/game/helper/DatatableSet.class
+com/connect4/game/services/GameHistoryService.class
+com/connect4/game/models/GameHistory.class
+com/connect4/game/services/CommonService.class
+com/connect4/game/controllers/DataController.class
+com/connect4/game/repositories/GameHistoryRepo.class
+com/connect4/game/controllers/ViewController.class
+com/connect4/game/Connect4Application.class

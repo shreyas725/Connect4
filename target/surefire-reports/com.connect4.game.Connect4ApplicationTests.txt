@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.connect4.game.Connect4ApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11.334 sec - in com.connect4.game.Connect4ApplicationTests

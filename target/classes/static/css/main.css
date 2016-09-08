@@ -1,0 +1,29 @@
+th, td {
+    padding: 3px;
+    text-align: left;
+}
+
+img {
+	border: 0
+}
+
+.bluetext {
+	font-size: 14px;
+	font-family: "Comic Sans MS", Verdana;
+	color: blue;
+	font-weight: bold
+}
+
+.redtext {
+	font-size: 14px;
+	font-family: "Comic Sans MS", Verdana;
+	color: red;
+	font-weight: bold
+}
+
+.blacktext {
+	font-size: 14px;
+	font-family: "Comic Sans MS", Verdana;
+	color: #000000;
+	font-weight: bold
+}
