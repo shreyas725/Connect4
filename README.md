@@ -1,4 +1,4 @@
-************* Instructions to run the code ***************
+************** Instructions to run the code ***************
 
 a) Download and Install Maven from https://maven.apache.org/download.cgi and set up your bash profile accordingly with this.
 
